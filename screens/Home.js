@@ -36,7 +36,7 @@ export default class Home extends Component {
   componentDidMount() {
     // Fill data
     let dataFill = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 20; i++) {
       let num = Math.floor(Math.random() * 100 + 1);
       dataFill = [...dataFill, num];
     }
@@ -46,18 +46,23 @@ export default class Home extends Component {
     this.setState({data: dataFill, max});
   }
 
-  urutkan = () => {
+  timer=(ms) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, ms)
+    })
+  }
+
+  urutkan = async () => {
     let {data} = this.state;
     let len = data.length;
     for (let i = 0; i < len - 1; i++) {
       for (let j = 0; j < len - i - 1; j++) {
         if (data[j] > data[j + 1]) {
-          setTimeout(() => {
-            let temp = data[j];
-            data[j] = data[j + 1];
-            data[j + 1] = temp;
-            this.setState({data});
-          }, 0)
+          await this.timer(0.1)
+          let temp = data[j];
+          data[j] = data[j + 1];
+          data[j + 1] = temp;
+          this.setState({data});
         }
       }
     }
