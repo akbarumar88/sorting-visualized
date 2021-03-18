@@ -49,7 +49,7 @@ export default class Home extends Component {
     // Cari data max
     let max = Math.max(...dataFill);
     // console.warn(dataFill, max)
-    this.setState({data: dataFill, max});
+    this.setState({data: dataFill, max, sortedIndex: [], switchingIndex: []});
   };
 
   timer = ms => {
