@@ -29,6 +29,7 @@ export default class Home extends Component {
 
     this.state = {
       data: [],
+      sortedIndex: [],
       max: 0,
     };
   }
@@ -36,7 +37,7 @@ export default class Home extends Component {
   componentDidMount() {
     // Fill data
     let dataFill = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
       let num = Math.floor(Math.random() * 100 + 1);
       dataFill = [...dataFill, num];
     }
@@ -46,11 +47,11 @@ export default class Home extends Component {
     this.setState({data: dataFill, max});
   }
 
-  timer=(ms) => {
+  timer = ms => {
     return new Promise((resolve, reject) => {
-      setTimeout(resolve, ms)
-    })
-  }
+      setTimeout(resolve, ms);
+    });
+  };
 
   urutkan = async () => {
     let {data} = this.state;
@@ -58,14 +59,17 @@ export default class Home extends Component {
     for (let i = 0; i < len - 1; i++) {
       for (let j = 0; j < len - i - 1; j++) {
         if (data[j] > data[j + 1]) {
-          await this.timer(0.1)
+          await this.timer(0.1);
           let temp = data[j];
           data[j] = data[j + 1];
           data[j + 1] = temp;
           this.setState({data});
         }
       }
+      // Tambah ke sorted Index
+      this.setState(s => ({sortedIndex: [...s.sortedIndex, len - i - 1]}));
     }
+    this.setState(s => ({sortedIndex: [...s.sortedIndex, 0]}));
   };
 
   render() {
@@ -74,12 +78,13 @@ export default class Home extends Component {
       <View style={{flexDirection: 'row', backgroundColor: 'white', flex: 1}}>
         {data.map((num, i) => {
           let heightRatio = num / max;
+          let isSorted = this.state.sortedIndex.includes(i);
           return (
             <View key={i} style={{flexDirection: 'column-reverse', flex: 1}}>
               <View
                 style={{
                   paddingHorizontal: 2,
-                  backgroundColor: 'red',
+                  backgroundColor: isSorted ? 'green' : 'red',
                   borderColor: 'black',
                   borderWidth: 1,
                   flex: heightRatio,
