@@ -36,7 +36,7 @@ export default class Home extends Component {
   componentDidMount() {
     // Fill data
     let dataFill = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       let num = Math.floor(Math.random() * 100 + 1);
       dataFill = [...dataFill, num];
     }
