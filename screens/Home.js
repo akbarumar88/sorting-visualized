@@ -30,6 +30,7 @@ export default class Home extends Component {
     this.state = {
       data: [],
       sortedIndex: [],
+      switchingIndex: [],
       max: 0,
     };
   }
@@ -63,7 +64,9 @@ export default class Home extends Component {
           let temp = data[j];
           data[j] = data[j + 1];
           data[j + 1] = temp;
-          this.setState({data});
+
+          // Set ke switching index
+          this.setState({data, switchingIndex: [j, j + 1]});
         }
       }
       // Tambah ke sorted Index
@@ -79,12 +82,18 @@ export default class Home extends Component {
         {data.map((num, i) => {
           let heightRatio = num / max;
           let isSorted = this.state.sortedIndex.includes(i);
+          let isSwitching = this.state.switchingIndex.includes(i);
+
+          let backgroundColor = '#fff';
+          if (isSorted) backgroundColor = 'green';
+          else if (isSwitching) backgroundColor = 'red';
+
           return (
             <View key={i} style={{flexDirection: 'column-reverse', flex: 1}}>
               <View
                 style={{
                   paddingHorizontal: 2,
-                  backgroundColor: isSorted ? 'green' : 'red',
+                  backgroundColor,
                   borderColor: 'black',
                   borderWidth: 1,
                   flex: heightRatio,
