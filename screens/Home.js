@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableNativeFeedback,
   useColorScheme,
   View,
 } from 'react-native';
@@ -45,10 +46,27 @@ export default class Home extends Component {
     this.setState({data: dataFill, max});
   }
 
+  urutkan = () => {
+    let {data} = this.state;
+    let len = data.length;
+    for (let i = 0; i < len - 1; i++) {
+      for (let j = 0; j < len - i - 1; j++) {
+        if (data[j] > data[j + 1]) {
+          setTimeout(() => {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+            this.setState({data});
+          }, 0)
+        }
+      }
+    }
+  };
+
   render() {
     const {data, max} = this.state;
     return (
-      <View style={{flexDirection: 'row', backgroundColor: 'green', flex: 1}}>
+      <View style={{flexDirection: 'row', backgroundColor: 'white', flex: 1}}>
         {data.map((num, i) => {
           let heightRatio = num / max;
           return (
@@ -64,6 +82,14 @@ export default class Home extends Component {
             </View>
           );
         })}
+
+        {/* Absolute Button */}
+        <TouchableNativeFeedback onPress={this.urutkan}>
+          <View
+            style={{backgroundColor: 'gray', position: 'absolute', padding: 8}}>
+            <Text>Urutkan</Text>
+          </View>
+        </TouchableNativeFeedback>
       </View>
     );
   }
