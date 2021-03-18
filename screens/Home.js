@@ -60,7 +60,7 @@ export default class Home extends Component {
     for (let i = 0; i < len - 1; i++) {
       for (let j = 0; j < len - i - 1; j++) {
         if (data[j] > data[j + 1]) {
-          await this.timer(0.1);
+          await this.timer(0);
           let temp = data[j];
           data[j] = data[j + 1];
           data[j + 1] = temp;
@@ -72,7 +72,13 @@ export default class Home extends Component {
       // Tambah ke sorted Index
       this.setState(s => ({sortedIndex: [...s.sortedIndex, len - i - 1]}));
     }
-    this.setState(s => ({sortedIndex: [...s.sortedIndex, 0]}));
+    // Kasih effect Filling ke-samping, reset sorted
+    let newSorted = []
+    for (let i = 0; i < len; i++) {
+      await this.timer(0)
+      newSorted = [...newSorted, i]
+      this.setState({sortedIndex:newSorted})
+    }
   };
 
   render() {
