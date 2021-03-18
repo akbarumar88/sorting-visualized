@@ -23,35 +23,48 @@ const backgroundStyle = {
 };
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+      max: 0,
+    };
+  }
+
+  componentDidMount() {
+    // Fill data
+    let dataFill = [];
+    for (let i = 0; i < 100; i++) {
+      let num = Math.floor(Math.random() * 100 + 1);
+      dataFill = [...dataFill, num];
+    }
+    // Cari data max
+    let max = Math.max(...dataFill);
+    // console.warn(dataFill, max)
+    this.setState({data: dataFill, max});
+  }
+
   render() {
+    const {data, max} = this.state;
     return (
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <Header />
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <Section title="Step One">
-              Edit <Text style={styles.highlight}>App.js</Text> to change this
-              screen and then come back to see your edits.
-            </Section>
-            <Section title="See Your Changes">
-              <ReloadInstructions />
-            </Section>
-            <Section title="Debug">
-              <DebugInstructions />
-            </Section>
-            <Section title="Learn More">
-              Read the docs to discover what to do next:
-            </Section>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <View style={{flexDirection: 'row', backgroundColor: 'green', flex: 1}}>
+        {data.map((num, i) => {
+          let heightRatio = num / max;
+          return (
+            <View key={i} style={{flexDirection: 'column-reverse', flex: 1}}>
+              <View
+                style={{
+                  paddingHorizontal: 2,
+                  backgroundColor: 'red',
+                  borderColor: 'black',
+                  borderWidth: 1,
+                  flex: heightRatio,
+                }}></View>
+            </View>
+          );
+        })}
+      </View>
     );
   }
 }
