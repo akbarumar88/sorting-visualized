@@ -36,9 +36,13 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    this.shuffle();
+  }
+
+  shuffle = () => {
     // Fill data
     let dataFill = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 75; i++) {
       let num = Math.floor(Math.random() * 100 + 1);
       dataFill = [...dataFill, num];
     }
@@ -46,7 +50,7 @@ export default class Home extends Component {
     let max = Math.max(...dataFill);
     // console.warn(dataFill, max)
     this.setState({data: dataFill, max});
-  }
+  };
 
   timer = ms => {
     return new Promise((resolve, reject) => {
@@ -73,11 +77,11 @@ export default class Home extends Component {
       this.setState(s => ({sortedIndex: [...s.sortedIndex, len - i - 1]}));
     }
     // Kasih effect Filling ke-samping, reset sorted
-    let newSorted = []
+    let newSorted = [];
     for (let i = 0; i < len; i++) {
-      await this.timer(0)
-      newSorted = [...newSorted, i]
-      this.setState({sortedIndex:newSorted})
+      await this.timer(0);
+      newSorted = [...newSorted, i];
+      this.setState({sortedIndex: newSorted});
     }
   };
 
@@ -111,8 +115,24 @@ export default class Home extends Component {
         {/* Absolute Button */}
         <TouchableNativeFeedback onPress={this.urutkan}>
           <View
-            style={{backgroundColor: 'gray', position: 'absolute', padding: 8}}>
+            style={{
+              backgroundColor: 'lightgray',
+              position: 'absolute',
+              padding: 8,
+            }}>
             <Text>Urutkan</Text>
+          </View>
+        </TouchableNativeFeedback>
+
+        <TouchableNativeFeedback onPress={this.shuffle}>
+          <View
+            style={{
+              backgroundColor: 'lightgray',
+              position: 'absolute',
+              padding: 8,
+              left: 80
+            }}>
+            <Text>Shuffle</Text>
           </View>
         </TouchableNativeFeedback>
       </View>
